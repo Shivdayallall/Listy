@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController {
     
     @IBOutlet weak var tabelview: UITableView!
     @IBOutlet weak var searchTF: UITextField!
@@ -26,9 +26,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func enterBtn(_ sender: UIButton) {
-        print("tap")
+        searchTF.endEditing(true)
+        print(searchTF.text!)
     }
+}
+
+//MARK: - Configure the textfield
+extension ViewController: UITextFieldDelegate {
     
+    // This method will ask the delegate if the return btn should be process
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        searchTF.endEditing(true)
+        
+        print(searchTF.text!)
+        
+        return true
+    }
     
 }
 
@@ -47,7 +61,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
-
     
 }
 

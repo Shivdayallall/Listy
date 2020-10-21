@@ -35,7 +35,7 @@
                                         <rect key="frame" x="17" y="17" width="278" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
                                         <connections>
                                             <action selector="textfield:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="UPV-9R-lao"/>
                                         </connections>
