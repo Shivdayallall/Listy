@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var tabelview: UITableView!
     @IBOutlet weak var searchTF: UITextField!
     
-    let words = ["clean room", "buy food", "vaccum"]
+    var taskArray = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,23 +25,39 @@ class ViewController: UIViewController {
     @IBAction func textfield(_ sender: UITextField) {
     }
     
-    @IBAction func enterBtn(_ sender: UIButton) {
-        searchTF.endEditing(true)
-        print(searchTF.text!)
+    // Add items to words array
+    func populateData() {
+        
+        // add new item to end of task array
+        taskArray.append(searchTF.text!)
+        
+        // reload tableview to show the new item that was added
+        tabelview.reloadData()
+    }
+    
+    // Delete item from task array
+    func deleteData() {
+        
     }
 }
 
 //MARK: - Configure the textfield
 extension ViewController: UITextFieldDelegate {
     
+    // **** Used IQKeyboardManager libary to controlled the keyboard ****
+    
     // This method will ask the delegate if the return btn should be process
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         searchTF.endEditing(true)
         
-        print(searchTF.text!)
+        populateData()
         
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // clear textfield after item is enter
     }
     
 }
@@ -50,14 +66,14 @@ extension ViewController: UITextFieldDelegate {
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return words.count
+        return taskArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tabelview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         
-        cell.textLabel?.text = words[indexPath.row]
+        cell.textLabel?.text = taskArray[indexPath.row]
         
         return cell
     }

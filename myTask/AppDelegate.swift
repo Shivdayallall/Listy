@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // moved textfield when the keyboard is tap.
+        IQKeyboardManager.shared.enable = true
+        
+        // remove the toolbar above keyboard
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        
+        // dismissed keyboard when touch outside of keyboard
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+
         return true
     }
 
