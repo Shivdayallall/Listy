@@ -39,6 +39,7 @@ class ViewController: UIViewController {
     func deleteData() {
         
     }
+    
 }
 
 //MARK: - Configure the textfield
@@ -56,9 +57,6 @@ extension ViewController: UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        // clear textfield after item is enter
-    }
     
 }
 
@@ -78,6 +76,31 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let cell = tabelview.cellForRow(at: indexPath as IndexPath) {
+            if cell.accessoryType == .checkmark {
+                cell.accessoryType = .none
+            }
+            else {
+                cell.accessoryType = .checkmark
+            }
+            
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            taskArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            print(indexPath.item)
+        }
+    }
+    
+    
 }
+
 
 
