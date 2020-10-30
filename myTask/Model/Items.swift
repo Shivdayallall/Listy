@@ -9,5 +9,6 @@ import Foundation
 import UIKit
 
 struct Items {
-    var name: String
+    var name = ""
+    var finish = false
 }

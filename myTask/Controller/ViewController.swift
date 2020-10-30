@@ -12,7 +12,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var tabelview: UITableView!
     @IBOutlet weak var searchTF: UITextField!
     
-    var taskArray = [String]()
+    // create array of item object
+    var taskArray = [Items]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,7 @@ class ViewController: UIViewController {
         tabelview.delegate = self
         tabelview.dataSource = self
         searchTF.delegate = self
+        
     }
     
     @IBAction func textfield(_ sender: UITextField) {
@@ -29,7 +31,9 @@ class ViewController: UIViewController {
     func populateData() {
         
         // add new item to end of task array
-        taskArray.append(searchTF.text!)
+        var newTask = Items()
+        newTask.name = searchTF.text!
+        self.taskArray.append(newTask)
         
         // reload tableview to show the new item that was added
         tabelview.reloadData()
@@ -71,22 +75,31 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tabelview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         
-        cell.textLabel?.text = taskArray[indexPath.row]
+        cell.textLabel?.text = taskArray[indexPath.row].name
+        
+        if taskArray[indexPath.row].finish == true {
+            cell.accessoryType = .checkmark
+        }
+        else {
+            cell.accessoryType = .none
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        /* Another way
+            taskArray[indexPath.row].finish = ! taskArray[indexPath.row].finish
+         */
         
-        if let cell = tabelview.cellForRow(at: indexPath as IndexPath) {
-            if cell.accessoryType == .checkmark {
-                cell.accessoryType = .none
-            }
-            else {
-                cell.accessoryType = .checkmark
-            }
-            
+        if taskArray[indexPath.row].finish == false {
+            taskArray[indexPath.row].finish = true
         }
+        else {
+            taskArray[indexPath.row].finish = false
+        }
+        
+        tabelview.reloadData()
         
     }
     
