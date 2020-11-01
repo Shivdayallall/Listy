@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ViewController: UIViewController {
     
@@ -14,6 +15,8 @@ class ViewController: UIViewController {
     
     // create array of item object
     var taskArray = [Items]()
+    // must make this a lazy var or app will crash with migration issue
+    lazy var realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,18 +25,33 @@ class ViewController: UIViewController {
         tabelview.dataSource = self
         searchTF.delegate = self
         
+        // print realm file path
+//        print(Realm.Configuration.defaultConfiguration.fileURL)
+        
     }
     
     @IBAction func textfield(_ sender: UITextField) {
     }
+
+    func SaveData(newItem: Items) {
+        do {
+            try  realm.write {
+                realm.add(newItem)
+            }
+        }
+        catch  {
+                print("Error saving \(Error.self)")
+            }
+            tabelview.reloadData()
+        }
     
     // Add items to words array
     func populateData() {
-        
         // add new item to end of task array
-        var newTask = Items()
+        let newTask = Items()
         newTask.name = searchTF.text!
         self.taskArray.append(newTask)
+        self.SaveData(newItem: newTask)
         
         // reload tableview to show the new item that was added
         tabelview.reloadData()

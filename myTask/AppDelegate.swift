@@ -7,13 +7,12 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import RealmSwift
 
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -25,6 +24,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // dismissed keyboard when touch outside of keyboard
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+        do {
+            _ = try Realm()
+        }
+        catch {
+            print("We have an error \(error.localizedDescription)")
+        }
+        
+//        let config = Realm.Configuration(
+//            schemaVersion: 1,
+//            migrationBlock: { migration, oldSchemaVersion in
+//                if (oldSchemaVersion < 1) {
+//                }
+//            })
+//         
+//        Realm.Configuration.defaultConfiguration = config
+//         
+//        let realm = try! Realm()
+        
+
 
         return true
     }

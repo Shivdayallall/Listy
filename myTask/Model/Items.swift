@@ -5,10 +5,11 @@
 //  Created by shiv on 10/21/20.
 //
 
-import Foundation
+import RealmSwift
 import UIKit
 
-struct Items {
-    var name = ""
-    var finish = false
+class Items: Object {
+    @objc dynamic var name = ""
+    @objc dynamic var finish = false
+    let item = List<Items>()
 }
