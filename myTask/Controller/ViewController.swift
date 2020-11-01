@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var tabelview: UITableView!
     @IBOutlet weak var searchTF: UITextField!
     
-    // create array of item object
+    // create array of item object, if you want to do it without realm just used the array of item of object inteam of result container
     // var taskArray = [Items]()
     
     // taskArray is now of data type results to match realm data object
@@ -72,14 +72,9 @@ class ViewController: UIViewController {
         tabelview.reloadData()
     }
     
-    //MARK: - Load data from realm db. R in crud.
+    //MARK: - R in crud. Load data from realm db.
     func loadData() {
         taskArray = realm.objects(Items.self)
-    }
-    
-    // Delete item from task array
-    func deleteData() {
-        
     }
     
 }
@@ -149,14 +144,28 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //MARK: - D in crud. delete user task when swipe on cell
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
+
         if editingStyle == .delete {
-//            taskArray.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            print(indexPath.item)
-        }
-    }
+            
+            if let task = taskArray?[indexPath.row] {
+                
+                do {
+                    try realm.write {
+                        realm.delete(task)
+                    }
+                }
+                catch {
+                    print("Item not deleted")
+                }
+            }
+            
+        } // close .delete
+        
+        tabelview.reloadData()
+        
+    } // close tableview function
     
     
 }

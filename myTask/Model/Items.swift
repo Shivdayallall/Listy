@@ -11,6 +11,6 @@ import UIKit
 class Items: Object {
     @objc dynamic var name = ""
     @objc dynamic var finish = false
-    // result data type frpom realm
+    // List data type frpom realm
     let item = List<Items>()
 }
