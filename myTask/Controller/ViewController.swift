@@ -14,7 +14,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchTF: UITextField!
     
     // create array of item object
-    var taskArray = [Items]()
+    // var taskArray = [Items]()
+    
+    // taskArray is now of data type results to match realm data object
+    // var taskArray: Results<Items>!
+    
+    // must be an optional b/c force unwraping is bad habit, Results is a realm data type. must make variable type of relam
+    var taskArray: Results<Items>?
+
+    
     // must make this a lazy var or app will crash with migration issue
     lazy var realm = try! Realm()
     
@@ -25,14 +33,19 @@ class ViewController: UIViewController {
         tabelview.dataSource = self
         searchTF.delegate = self
         
+        // Load data
+        loadData()
+        
         // print realm file path
-//        print(Realm.Configuration.defaultConfiguration.fileURL)
+       //  print(Realm.Configuration.defaultConfiguration.fileURL)
         
     }
     
     @IBAction func textfield(_ sender: UITextField) {
     }
 
+    
+    //MARK: - C in crud. this function take in a paramater that is type Items fron the Items class
     func SaveData(newItem: Items) {
         do {
             try  realm.write {
@@ -47,14 +60,21 @@ class ViewController: UIViewController {
     
     // Add items to words array
     func populateData() {
-        // add new item to end of task array
         let newTask = Items()
         newTask.name = searchTF.text!
-        self.taskArray.append(newTask)
+        
+        // dont need to append b/c realm will auto update data
+        //  self.taskArray.append(newTask)
+        
         self.SaveData(newItem: newTask)
         
         // reload tableview to show the new item that was added
         tabelview.reloadData()
+    }
+    
+    //MARK: - Load data from realm db. R in crud.
+    func loadData() {
+        taskArray = realm.objects(Items.self)
     }
     
     // Delete item from task array
@@ -86,35 +106,43 @@ extension ViewController: UITextFieldDelegate {
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taskArray.count
+        // nil cosleasing operator, if task is nil or empty returnn 1 cell if not return the count
+        return taskArray?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tabelview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         
-        cell.textLabel?.text = taskArray[indexPath.row].name
-        
-        if taskArray[indexPath.row].finish == true {
-            cell.accessoryType = .checkmark
+        if let task = taskArray?[indexPath.row] {
+            cell.textLabel?.text = task.name
+            
+            if taskArray?[indexPath.row].finish == true {
+                cell.accessoryType = .checkmark
+            }
+            else {
+                cell.accessoryType = .none
+            }
         }
         else {
-            cell.accessoryType = .none
+            cell.textLabel?.text = "Task not added"
         }
-        
+            
         return cell
     }
     
+    //MARK: - U in crud. update the view when user click on cell.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        /* Another way
-            taskArray[indexPath.row].finish = ! taskArray[indexPath.row].finish
-         */
-        
-        if taskArray[indexPath.row].finish == false {
-            taskArray[indexPath.row].finish = true
-        }
-        else {
-            taskArray[indexPath.row].finish = false
+
+        if let task = taskArray?[indexPath.row] {
+            do {
+                try realm.write {
+                    task.finish = !task.finish
+                }
+            }
+            catch {
+                print("Error")
+            }
         }
         
         tabelview.reloadData()
@@ -124,7 +152,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            taskArray.remove(at: indexPath.row)
+//            taskArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             print(indexPath.item)
         }
