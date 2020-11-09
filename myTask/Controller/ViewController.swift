@@ -41,10 +41,6 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func textfield(_ sender: UITextField) {
-    }
-
-    
     //MARK: - C in crud. this function take in a paramater that is type Items fron the Items class
     func SaveData(newItem: Items) {
         do {
@@ -90,6 +86,9 @@ extension ViewController: UITextFieldDelegate {
         searchTF.endEditing(true)
         
         populateData()
+        
+        // clear textfield
+        searchTF.text = ""
         
         return true
     }
