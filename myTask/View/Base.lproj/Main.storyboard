@@ -48,15 +48,21 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzH-5l-WAo" userLabel="bottomView">
                                         <rect key="frame" x="0.0" y="608" width="428" height="196"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Task" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" id="xWE-AT-Tp1">
-                                                <rect key="frame" x="31" y="81" width="366" height="34"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Task" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xWE-AT-Tp1">
+                                                <rect key="frame" x="49" y="73" width="330" height="50"/>
+                                                <color key="backgroundColor" red="0.99897915120000003" green="0.97358614210000005" blue="0.8509525657" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="1U9-1z-vuG"/>
+                                                    <constraint firstAttribute="width" constant="330" id="vDr-K5-fgH"/>
+                                                </constraints>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
                                             </textField>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.45085787770000002" green="0.98829740290000001" blue="0.83763033149999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
+                                            <constraint firstItem="xWE-AT-Tp1" firstAttribute="centerX" secondItem="kzH-5l-WAo" secondAttribute="centerX" id="28J-sS-E3q"/>
+                                            <constraint firstItem="xWE-AT-Tp1" firstAttribute="centerY" secondItem="kzH-5l-WAo" secondAttribute="centerY" id="6T8-GZ-Grl"/>
                                             <constraint firstAttribute="height" constant="196" id="WuN-xg-A6X"/>
                                         </constraints>
                                     </view>
@@ -104,7 +110,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="aD8-ld-GWf">
                         <rect key="frame" x="0.0" y="44" width="428" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.70196078429999997" green="0.25882352939999997" blue="0.55294117649999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="1" green="0.93725490199999995" blue="0.56862745100000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
