@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view.
         tabelview.delegate = self
         tabelview.dataSource = self
@@ -63,6 +64,8 @@ class ViewController: UIViewController {
         //  self.taskArray.append(newTask)
         
         self.SaveData(newItem: newTask)
+        // tabelview.scrollToRow(at: indexPath , at: .bottom, animated: true)
+
         
         // reload tableview to show the new item that was added
         tabelview.reloadData()
@@ -165,7 +168,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         tabelview.reloadData()
         
     } // close tableview function
-    
     
 }
 
