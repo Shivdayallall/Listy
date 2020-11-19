@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
         
         // dismissed keyboard when touch outside of keyboard
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+//        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
         do {
             _ = try Realm()

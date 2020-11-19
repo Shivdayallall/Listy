@@ -10,6 +10,10 @@ import RealmSwift
 
 class ViewController: UIViewController {
     
+    // scroll table when text in serach box
+    // fix font style
+    // adjust launch screen width
+    
     @IBOutlet weak var tabelview: UITableView!
     @IBOutlet weak var searchTF: UITextField!
     
@@ -36,22 +40,33 @@ class ViewController: UIViewController {
         
         // Load data
         loadData()
-        
+        //scrollToBottom()
         // print realm file path
        //  print(Realm.Configuration.defaultConfiguration.fileURL)
         
     }
+    
+    func scrollToBottom(){
+            DispatchQueue.main.async {
+                let index = IndexPath(row: self.taskArray!.count-1, section: 0)
+                self.tabelview.scrollToRow(at: index, at: .bottom, animated: true)
+            }
+        }
+
+    
     
     //MARK: - C in crud. this function take in a paramater that is type Items fron the Items class
     func SaveData(newItem: Items) {
         do {
             try  realm.write {
                 realm.add(newItem)
+                scrollToBottom()
             }
         }
         catch  {
                 print("Error saving \(Error.self)")
             }
+            
             tabelview.reloadData()
         }
     
@@ -86,7 +101,8 @@ extension ViewController: UITextFieldDelegate {
     // This method will ask the delegate if the return btn should be process
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        searchTF.endEditing(true)
+        // this method will cause the keyboard to resign once enter btn is press
+         searchTF.endEditing(true)
         
         populateData()
         
@@ -110,6 +126,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tabelview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        cell.textLabel?.font = UIFont(name: "Marker Felt", size: 18)
         
         if let task = taskArray?[indexPath.row] {
             cell.textLabel?.text = task.name
@@ -157,6 +174,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     try realm.write {
                         realm.delete(task)
                     }
+                    tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
                 }
                 catch {
                     print("Item not deleted")
