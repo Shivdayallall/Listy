@@ -10,9 +10,7 @@ import RealmSwift
 
 class ViewController: UIViewController {
     
-    // scroll table when text in serach box
-    // fix font style
-    // adjust launch screen width
+    // this version uses the slide up keyboard with a textbox to add the data.
     
     @IBOutlet weak var tabelview: UITableView!
     @IBOutlet weak var searchTF: UITextField!
@@ -40,12 +38,14 @@ class ViewController: UIViewController {
         
         // Load data
         loadData()
-        //scrollToBottom()
+    
         // print realm file path
        //  print(Realm.Configuration.defaultConfiguration.fileURL)
         
     }
     
+    
+    // uses scrolltorow() to scroll the tableview to last item in the array
     func scrollToBottom(){
             DispatchQueue.main.async {
                 let index = IndexPath(row: self.taskArray!.count-1, section: 0)
