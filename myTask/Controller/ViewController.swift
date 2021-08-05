@@ -10,37 +10,19 @@ import RealmSwift
 
 class ViewController: UIViewController {
     
-    // this version uses the bar button item to add the data.
-    
     @IBOutlet weak var tabelview: UITableView!
-    
-    // create array of item object, if you want to do it without realm just used the array of item of object inteam of result container
-    // var taskArray = [Items]()
-    
-    // taskArray is now of data type results to match realm data object
-    // var taskArray: Results<Items>!
-    
-    // must be an optional b/c force unwraping is bad habit, Results is a realm data type. must make variable type of relam
+
     var taskArray: Results<Items>?
     var textField = UITextField()
-
-
-    
-    // must make this a lazy var or app will crash with migration issue
     lazy var realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
         tabelview.delegate = self
         tabelview.dataSource = self
         
-        // Load data
         loadData()
-    
-        // print realm file path
-       //  print(Realm.Configuration.defaultConfiguration.fileURL)
         
     }
     
@@ -50,10 +32,11 @@ class ViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
         
         let addAction = UIAlertAction(title: "Add", style: .default) { add in
-            //MARK: - create new instance of item class
+            
             let item = Items()
-            //MARK: - assign what the user have in the textfield to the name property of the class
+            
             item.name = self.textField.text!
+            
             self.SaveData(newItem: item)
         }
         alert.addAction(cancelAction)
@@ -66,9 +49,6 @@ class ViewController: UIViewController {
         
     }
     
-    
-    
-    // uses scrolltorow() to scroll the tableview to last item in the array
     func scrollToBottom(){
             DispatchQueue.main.async {
                 let index = IndexPath(row: self.taskArray!.count-1, section: 0)
@@ -76,9 +56,6 @@ class ViewController: UIViewController {
             }
         }
 
-    
-    
-    //MARK: - C in crud. this function take in a paramater that is type Items fron the Items class
     func SaveData(newItem: Items) {
         do {
             try  realm.write {
@@ -93,34 +70,24 @@ class ViewController: UIViewController {
             tabelview.reloadData()
         }
     
-    // Add items to words array
     func populateData() {
         let newTask = Items()
         newTask.name = self.textField.text!
 
-        // dont need to append b/c realm will auto update data
-        //  self.taskArray.append(newTask)
-
         self.SaveData(newItem: newTask)
-        // tabelview.scrollToRow(at: indexPath , at: .bottom, animated: true)
-
-
-        // reload tableview to show the new item that was added
+        
         tabelview.reloadData()
     }
     
-    //MARK: - R in crud. Load data from realm db.
     func loadData() {
         taskArray = realm.objects(Items.self)
     }
     
 }
 
-//MARK: - Configure the tableView
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // nil cosleasing operator, if task is nil or empty returnn 1 cell if not return the count
         return taskArray?.count ?? 1
     }
     
@@ -146,7 +113,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    //MARK: - U in crud. update the view when user click on cell.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         if let task = taskArray?[indexPath.row] {
@@ -161,10 +127,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         tabelview.reloadData()
-        
     }
     
-    //MARK: - D in crud. delete user task when swipe on cell
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 
         if editingStyle == .delete {
@@ -182,13 +146,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             
-        } // close .delete
+        }
         
         tabelview.reloadData()
         
-    } // close tableview function
+    }
     
 }
-
-
-
