@@ -21,10 +21,10 @@
                                 <rect key="frame" x="0.0" y="88" width="428" height="804"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UAp-QN-cg0" userLabel="topView">
-                                        <rect key="frame" x="0.0" y="0.0" width="428" height="744"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="804"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fup-vs-V5G">
-                                                <rect key="frame" x="0.0" y="0.0" width="428" height="744"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="428" height="804"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <color key="separatorColor" name="AccentColor"/>
                                                 <prototypes>
@@ -47,35 +47,11 @@
                                             <constraint firstAttribute="bottom" secondItem="fup-vs-V5G" secondAttribute="bottom" id="bzX-q2-smD"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzH-5l-WAo" userLabel="bottomView">
-                                        <rect key="frame" x="0.0" y="754" width="428" height="50"/>
-                                        <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Create new Item" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xWE-AT-Tp1">
-                                                <rect key="frame" x="49" y="-8" width="330" height="50"/>
-                                                <color key="backgroundColor" name="ColorTheme"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="1U9-1z-vuG"/>
-                                                    <constraint firstAttribute="width" constant="330" id="AzX-nW-STq"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="18"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                            </textField>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstItem="xWE-AT-Tp1" firstAttribute="centerX" secondItem="kzH-5l-WAo" secondAttribute="centerX" id="28J-sS-E3q"/>
-                                            <constraint firstItem="xWE-AT-Tp1" firstAttribute="centerY" secondItem="kzH-5l-WAo" secondAttribute="centerY" constant="-8" id="6T8-GZ-Grl"/>
-                                            <constraint firstAttribute="height" constant="50" id="WuN-xg-A6X"/>
-                                        </constraints>
-                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="UAp-QN-cg0" secondAttribute="trailing" id="16v-K8-bab"/>
                                     <constraint firstItem="UAp-QN-cg0" firstAttribute="leading" secondItem="2JC-2V-lLg" secondAttribute="leading" id="H6n-ob-Ats"/>
                                     <constraint firstItem="UAp-QN-cg0" firstAttribute="top" secondItem="2JC-2V-lLg" secondAttribute="top" id="II4-ew-HRJ"/>
-                                    <constraint firstAttribute="bottom" secondItem="kzH-5l-WAo" secondAttribute="bottom" id="R1k-Ef-9TU"/>
-                                    <constraint firstAttribute="trailing" secondItem="kzH-5l-WAo" secondAttribute="trailing" id="dop-uK-4v8"/>
-                                    <constraint firstAttribute="bottom" secondItem="kzH-5l-WAo" secondAttribute="bottom" id="ucq-07-BzT"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -97,7 +73,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="searchTF" destination="xWE-AT-Tp1" id="XRv-SO-FWx"/>
                         <outlet property="tabelview" destination="fup-vs-V5G" id="DKq-nI-oQh"/>
                     </connections>
                 </viewController>

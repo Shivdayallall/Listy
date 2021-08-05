@@ -13,7 +13,6 @@ class ViewController: UIViewController {
     // this version uses the slide up keyboard with a textbox to add the data.
     
     @IBOutlet weak var tabelview: UITableView!
-    @IBOutlet weak var searchTF: UITextField!
     
     // create array of item object, if you want to do it without realm just used the array of item of object inteam of result container
     // var taskArray = [Items]()
@@ -23,6 +22,8 @@ class ViewController: UIViewController {
     
     // must be an optional b/c force unwraping is bad habit, Results is a realm data type. must make variable type of relam
     var taskArray: Results<Items>?
+    var textField = UITextField()
+
 
     
     // must make this a lazy var or app will crash with migration issue
@@ -34,7 +35,6 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         tabelview.delegate = self
         tabelview.dataSource = self
-        searchTF.delegate = self
         
         // Load data
         loadData()
@@ -45,7 +45,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func addNewTask(_ sender: Any) {
-        var textField = UITextField()
         let alert = UIAlertController(title: "Add New Task", message: "", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
@@ -54,13 +53,13 @@ class ViewController: UIViewController {
             //MARK: - create new instance of item class
             let item = Items()
             //MARK: - assign what the user have in the textfield to the name property of the class
-            item.name = textField.text!
+            item.name = self.textField.text!
             self.SaveData(newItem: item)
         }
         alert.addAction(cancelAction)
         alert.addAction(addAction)
-        alert.addTextField { field in
-            textField = field
+        alert.addTextField { [self] field in
+            self.textField = field
             textField.placeholder = "New Task"
         }
         present(alert, animated: true, completion: nil)
@@ -97,15 +96,15 @@ class ViewController: UIViewController {
     // Add items to words array
     func populateData() {
         let newTask = Items()
-        newTask.name = searchTF.text!
-        
+        newTask.name = self.textField.text!
+
         // dont need to append b/c realm will auto update data
         //  self.taskArray.append(newTask)
-        
+
         self.SaveData(newItem: newTask)
         // tabelview.scrollToRow(at: indexPath , at: .bottom, animated: true)
 
-        
+
         // reload tableview to show the new item that was added
         tabelview.reloadData()
     }
@@ -114,28 +113,6 @@ class ViewController: UIViewController {
     func loadData() {
         taskArray = realm.objects(Items.self)
     }
-    
-}
-
-//MARK: - Configure the textfield
-extension ViewController: UITextFieldDelegate {
-    
-    // **** Used IQKeyboardManager libary to controlled the keyboard ****
-    
-    // This method will ask the delegate if the return btn should be process
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        // this method will cause the keyboard to resign once enter btn is press
-         searchTF.endEditing(true)
-        
-        populateData()
-        
-        // clear textfield
-        searchTF.text = ""
-        
-        return true
-    }
-    
     
 }
 
@@ -163,7 +140,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         else {
-            cell.textLabel?.text = "Task not added"
+            cell.textLabel?.text = "Add a new task"
         }
             
         return cell
