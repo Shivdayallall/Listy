@@ -10,7 +10,7 @@ import RealmSwift
 
 class ViewController: UIViewController {
     
-    // this version uses the slide up keyboard with a textbox to add the data.
+    // this version uses the bar button item to add the data.
     
     @IBOutlet weak var tabelview: UITableView!
     
