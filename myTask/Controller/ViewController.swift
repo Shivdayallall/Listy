@@ -44,6 +44,30 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func addNewTask(_ sender: Any) {
+        var textField = UITextField()
+        let alert = UIAlertController(title: "Add New Task", message: "", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        
+        let addAction = UIAlertAction(title: "Add", style: .default) { add in
+            //MARK: - create new instance of item class
+            let item = Items()
+            //MARK: - assign what the user have in the textfield to the name property of the class
+            item.name = textField.text!
+            self.SaveData(newItem: item)
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(addAction)
+        alert.addTextField { field in
+            textField = field
+            textField.placeholder = "New Task"
+        }
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+    
     
     // uses scrolltorow() to scroll the tableview to last item in the array
     func scrollToBottom(){
