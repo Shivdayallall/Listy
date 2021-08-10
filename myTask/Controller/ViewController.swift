@@ -35,7 +35,7 @@ class ViewController: UIViewController {
             
             let item = Items()
             
-            item.name = self.textField.text!
+            item.name = self.textField.text!.capitalized
             
             self.SaveData(newItem: item)
         }
