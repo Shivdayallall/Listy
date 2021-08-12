@@ -14,6 +14,7 @@ class ViewController: UIViewController {
 
     var taskArray: Results<Items>?
     var textField = UITextField()
+    var alert = UIAlertController()
     lazy var realm = try! Realm()
     
     override func viewDidLoad() {
@@ -26,24 +27,30 @@ class ViewController: UIViewController {
         
     }
     
+    @objc func alertTextFieldDidChange(_ sender: UITextField) {
+        alert.actions[1].isEnabled = sender.text!.count > 0
+    }
+    
     @IBAction func addNewTask(_ sender: Any) {
-        let alert = UIAlertController(title: "Add New Task", message: "", preferredStyle: .alert)
+        alert = UIAlertController(title: "Add New Task", message: "", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-        
+
         let addAction = UIAlertAction(title: "Add", style: .default) { add in
-            
             let item = Items()
-            
             item.name = self.textField.text!.capitalized
-            
             self.SaveData(newItem: item)
         }
+        
+        addAction.isEnabled = false
         alert.addAction(cancelAction)
         alert.addAction(addAction)
+        
         alert.addTextField { [self] field in
             self.textField = field
             textField.placeholder = "New Task"
+            textField.keyboardType = UIKeyboardType.default
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: .editingChanged)
         }
         present(alert, animated: true, completion: nil)
         
