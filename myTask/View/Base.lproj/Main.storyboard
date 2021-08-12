@@ -65,6 +65,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Listy" id="Pa1-sq-UgC">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="8VC-OC-PYN">
+                            <color key="tintColor" red="0.01254555641" green="0.0" blue="0.16904769410000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <connections>
+                                <action selector="deleteAllTask:" destination="BYZ-38-t0r" id="0jI-P1-rrJ"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ef8-Mh-Tjb">
                             <color key="tintColor" red="0.012545556411425629" green="0.0" blue="0.16904769406345077" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>

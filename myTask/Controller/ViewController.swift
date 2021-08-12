@@ -23,9 +23,8 @@ class ViewController: UIViewController {
     // must be an optional b/c force unwraping is bad habit, Results is a realm data type. must make variable type of relam
     var taskArray: Results<Items>?
     var textField = UITextField()
+    var alert = UIAlertController()
 
-
-    
     // must make this a lazy var or app will crash with migration issue
     lazy var realm = try! Realm()
     
@@ -44,27 +43,45 @@ class ViewController: UIViewController {
         
     }
     
+    //MARK: - create a function that will handel text change
+    @objc func alertTextFieldDidChange(_ sender: UITextField) {
+        // Target the second action in the alert VC and enable the action if the text count is greater thna 0.
+        alert.actions[1].isEnabled = sender.text!.count > 0
+    }
+    
     @IBAction func addNewTask(_ sender: Any) {
-        let alert = UIAlertController(title: "Add New Task", message: "", preferredStyle: .alert)
+        alert = UIAlertController(title: "Add New Task", message: "", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-        
+
         let addAction = UIAlertAction(title: "Add", style: .default) { add in
             //MARK: - create new instance of item class
             let item = Items()
             //MARK: - assign what the user have in the textfield to the name property of the class
-            item.name = self.textField.text!
+            item.name = self.textField.text!.capitalized
             self.SaveData(newItem: item)
         }
+        
+        addAction.isEnabled = false
         alert.addAction(cancelAction)
         alert.addAction(addAction)
+        
         alert.addTextField { [self] field in
             self.textField = field
             textField.placeholder = "New Task"
+            textField.keyboardType = UIKeyboardType.default
+            // add the target action to the textfielf to be monitored
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: .editingChanged)
         }
         present(alert, animated: true, completion: nil)
         
     }
+    
+    @IBAction func deleteAllTask(_ sender: Any) {
+        print("delete all item")
+    }
+    
+    
     
     
     
