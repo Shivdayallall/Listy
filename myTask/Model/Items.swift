@@ -6,7 +6,7 @@
 //
 
 import RealmSwift
-import UIKit
+import Foundation
 
 class Items: Object {
     @objc dynamic var name = ""

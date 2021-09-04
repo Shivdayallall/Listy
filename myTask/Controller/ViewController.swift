@@ -23,7 +23,9 @@ class ViewController: UIViewController {
         tabelview.delegate = self
         tabelview.dataSource = self
         
-        loadData()
+//        loadData()
+//         print(Realm.Configuration.defaultConfiguration.fileURL!)
+        // command + shift + g
         
     }
     
@@ -32,26 +34,26 @@ class ViewController: UIViewController {
     }
     
     @IBAction func addNewTask(_ sender: Any) {
-        alert = UIAlertController(title: "Add New Task", message: "", preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-
-        let addAction = UIAlertAction(title: "Add", style: .default) { add in
-            let item = Items()
-            item.name = self.textField.text!.capitalized
-            self.SaveData(newItem: item)
-        }
-        
-        addAction.isEnabled = false
-        alert.addAction(cancelAction)
-        alert.addAction(addAction)
-        
-        alert.addTextField { [self] field in
-            self.textField = field
-            textField.placeholder = "New Task"
-            textField.keyboardType = UIKeyboardType.default
-            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: .editingChanged)
-        }
+        alert = UIAlertController(title: "Add A New Task", message: "", preferredStyle: .alert)
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+//
+//        let addAction = UIAlertAction(title: "Add", style: .default) { add in
+//            let item = Items()
+//            item.name = self.textField.text!.capitalized
+//            self.SaveData(newItem: item)
+//        }
+//
+//        addAction.isEnabled = false
+//        alert.addAction(cancelAction)
+//        alert.addAction(addAction)
+//
+//        alert.addTextField { [self] field in
+//            self.textField = field
+//            textField.placeholder = "New Task"
+//            textField.keyboardType = UIKeyboardType.default
+//            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: .editingChanged)
+//        }
         present(alert, animated: true, completion: nil)
         
     }
