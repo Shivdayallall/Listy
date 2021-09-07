@@ -18,25 +18,47 @@ class CategoryVC: UIViewController {
     let realm = try! Realm()
     var categoriesArray: Results<Category>?
     
+    let floatingBtn: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        button.backgroundColor = .systemTeal
+        // add image to button
+        let image = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
+        button.tintColor = .white
+        button.setImage(image, for: .normal)
+        // add shadow to button
+        // button.layer.masksToBounds = true. with this enable it will cause shadow to disapear
+        button.layer.cornerRadius = 30
+        button.layer.shadowRadius = 10
+        button.layer.shadowOpacity = 0.3
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         tableView.delegate = self
         tableView.dataSource = self
         
         loadCategories()
-//         print(Realm.Configuration.defaultConfiguration.fileURL!)
-
+        view.addSubview(floatingBtn)
+        // print(Realm.Configuration.defaultConfiguration.fileURL!)
+        
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        floatingBtn.frame = CGRect(x: view.frame.size.width - 70, y: view.frame.size.height - 100, width: 60, height: 60)
+        floatingBtn.addTarget(self, action: #selector(addNewCategory), for: .touchUpInside)
+    }
+    
     
     // enable second action in the array if the text in textfield is greater than 0
     @objc func alertTextFieldDidChange(_ sender: UITextField) {
         alert.actions[1].isEnabled = sender.text!.count > 0
     }
     
-    @IBAction func addCategoryBtn(_ sender: Any) {
+    @objc func addNewCategory() {
         // configure the uiAlert
         alert = UIAlertController(title: "Add A New Category", message: "", preferredStyle: .alert)
         
@@ -82,7 +104,7 @@ extension CategoryVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-
+        
         if editingStyle == .delete {
             
             if let catergory = categoriesArray?[indexPath.row] {

@@ -11,11 +11,26 @@ import RealmSwift
 class ViewController: UIViewController {
     
     @IBOutlet weak var tabelview: UITableView!
-
+    
     var taskArray: Results<Items>?
     var textField = UITextField()
     var alert = UIAlertController()
     lazy var realm = try! Realm()
+    
+    let floatingBtn: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        button.backgroundColor = .systemTeal
+        // add image to button
+        let image = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
+        button.tintColor = .white
+        button.setImage(image, for: .normal)
+        // add shadow to button
+        // button.layer.masksToBounds = true. with this enable it will cause shadow to disapear
+        button.layer.cornerRadius = 30
+        button.layer.shadowRadius = 10
+        button.layer.shadowOpacity = 0.3
+        return button
+    }()
     
     var selectedCategory: Category? {
         didSet {
@@ -29,21 +44,29 @@ class ViewController: UIViewController {
         tabelview.delegate = self
         tabelview.dataSource = self
         
-//        loadData()
-//         print(Realm.Configuration.defaultConfiguration.fileURL!)
+        view.addSubview(floatingBtn)
+        
+        //        loadData()
+        //         print(Realm.Configuration.defaultConfiguration.fileURL!)
         // command + shift + g
         
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        floatingBtn.frame = CGRect(x: view.frame.size.width - 70, y: view.frame.size.height - 100, width: 60, height: 60)
+        floatingBtn.addTarget(self, action: #selector(addNewTask), for: .touchUpInside)
     }
     
     @objc func alertTextFieldDidChange(_ sender: UITextField) {
         alert.actions[1].isEnabled = sender.text!.count > 0
     }
     
-    @IBAction func addNewTask(_ sender: Any) {
+    @objc func addNewTask() {
         alert = UIAlertController(title: "Add A New Task", message: "", preferredStyle: .alert)
-
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-
+        
         let addAction = UIAlertAction(title: "Add", style: .default) { add in
             if let currentCategory = self.selectedCategory {
                 do {
@@ -51,7 +74,7 @@ class ViewController: UIViewController {
                         let item = Items()
                         item.name = self.textField.text!.capitalized
                         currentCategory.todoItem.append(item)
-//                        self.SaveData(newItem: item)
+                        //                        self.SaveData(newItem: item)
                     })
                     
                 } catch {
@@ -61,11 +84,11 @@ class ViewController: UIViewController {
             self.tabelview.reloadData()
             
         }
-
+        
         addAction.isEnabled = false
         alert.addAction(cancelAction)
         alert.addAction(addAction)
-
+        
         alert.addTextField { [self] field in
             self.textField = field
             textField.placeholder = "New Task"
@@ -77,12 +100,12 @@ class ViewController: UIViewController {
     }
     
     func scrollToBottom(){
-            DispatchQueue.main.async {
-                let index = IndexPath(row: self.taskArray!.count-1, section: 0)
-                self.tabelview.scrollToRow(at: index, at: .bottom, animated: true)
-            }
+        DispatchQueue.main.async {
+            let index = IndexPath(row: self.taskArray!.count-1, section: 0)
+            self.tabelview.scrollToRow(at: index, at: .bottom, animated: true)
         }
-
+    }
+    
     func SaveData(newItem: Items) {
         do {
             try  realm.write {
@@ -91,26 +114,23 @@ class ViewController: UIViewController {
             }
         }
         catch  {
-                print("Error saving \(Error.self)")
-            }
-            
-            tabelview.reloadData()
+            print("Error saving \(Error.self)")
         }
+        
+        tabelview.reloadData()
+    }
     
     func populateData() {
         let newTask = Items()
         newTask.name = self.textField.text!
-
+        
         self.SaveData(newItem: newTask)
         
         tabelview.reloadData()
     }
     
     func loadData() {
-//        taskArray = realm.objects(Items.self)
-        taskArray = selectedCategory?.todoItem.sorted(byKeyPath: "name", ascending: false)
-//        tabelview.reloadData()
-
+        taskArray = selectedCategory?.todoItem.sorted(byKeyPath: "name", ascending: true)
     }
     
 }
@@ -119,7 +139,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return taskArray?.count ?? 1
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -140,12 +159,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         else {
             cell.textLabel?.text = "Add a new task"
         }
-            
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         if let task = taskArray?[indexPath.row] {
             do {
                 try realm.write {
@@ -161,7 +180,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-
+        
         if editingStyle == .delete {
             
             if let task = taskArray?[indexPath.row] {
