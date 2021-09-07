@@ -17,6 +17,12 @@ class ViewController: UIViewController {
     var alert = UIAlertController()
     lazy var realm = try! Realm()
     
+    var selectedCategory: Category? {
+        didSet {
+            loadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,25 +41,37 @@ class ViewController: UIViewController {
     
     @IBAction func addNewTask(_ sender: Any) {
         alert = UIAlertController(title: "Add A New Task", message: "", preferredStyle: .alert)
-//
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-//
-//        let addAction = UIAlertAction(title: "Add", style: .default) { add in
-//            let item = Items()
-//            item.name = self.textField.text!.capitalized
-//            self.SaveData(newItem: item)
-//        }
-//
-//        addAction.isEnabled = false
-//        alert.addAction(cancelAction)
-//        alert.addAction(addAction)
-//
-//        alert.addTextField { [self] field in
-//            self.textField = field
-//            textField.placeholder = "New Task"
-//            textField.keyboardType = UIKeyboardType.default
-//            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: .editingChanged)
-//        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+
+        let addAction = UIAlertAction(title: "Add", style: .default) { add in
+            if let currentCategory = self.selectedCategory {
+                do {
+                    try self.realm.write({
+                        let item = Items()
+                        item.name = self.textField.text!.capitalized
+                        currentCategory.todoItem.append(item)
+//                        self.SaveData(newItem: item)
+                    })
+                    
+                } catch {
+                    print("Error saving new task \(error.localizedDescription)")
+                }
+            }
+            self.tabelview.reloadData()
+            
+        }
+
+        addAction.isEnabled = false
+        alert.addAction(cancelAction)
+        alert.addAction(addAction)
+
+        alert.addTextField { [self] field in
+            self.textField = field
+            textField.placeholder = "New Task"
+            textField.keyboardType = UIKeyboardType.default
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: .editingChanged)
+        }
         present(alert, animated: true, completion: nil)
         
     }
@@ -89,7 +107,10 @@ class ViewController: UIViewController {
     }
     
     func loadData() {
-        taskArray = realm.objects(Items.self)
+//        taskArray = realm.objects(Items.self)
+        taskArray = selectedCategory?.todoItem.sorted(byKeyPath: "name", ascending: false)
+//        tabelview.reloadData()
+
     }
     
 }
@@ -98,6 +119,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return taskArray?.count ?? 1
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

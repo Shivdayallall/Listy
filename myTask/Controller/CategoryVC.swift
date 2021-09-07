@@ -27,7 +27,7 @@ class CategoryVC: UIViewController {
         tableView.dataSource = self
         
         loadCategories()
-        // print(Realm.Configuration.defaultConfiguration.fileURL!)
+//         print(Realm.Configuration.defaultConfiguration.fileURL!)
 
     }
     
@@ -102,6 +102,18 @@ extension CategoryVC: UITableViewDelegate, UITableViewDataSource {
         
         tableView.reloadData()
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "taskSegue", sender: self)
+    }
+    
+    // Segue to selected items from selected Category
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! ViewController
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedCategory = categoriesArray?[indexPath.row]
+        }
     }
     
 }
