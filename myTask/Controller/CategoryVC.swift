@@ -103,10 +103,8 @@ extension CategoryVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if editingStyle == .delete {
-            
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [self] (contextualAction, view, actionPerformed: (Bool) -> ()) in
             if let catergory = categoriesArray?[indexPath.row] {
                 
                 do {
@@ -122,9 +120,15 @@ extension CategoryVC: UITableViewDelegate, UITableViewDataSource {
             
         }
         
-        tableView.reloadData()
+        delete.image = UIImage(systemName: "trash")
         
+        tableView.reloadData()
+
+        return UISwipeActionsConfiguration(actions: [delete])
     }
+
+
+  
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "taskSegue", sender: self)

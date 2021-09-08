@@ -42,13 +42,7 @@
                             <constraint firstItem="taf-57-DgB" firstAttribute="trailing" secondItem="SkR-Q4-sEQ" secondAttribute="trailing" id="ebo-XC-ZTU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Category" id="L9e-xf-ULc">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="cku-Sn-H2x">
-                            <connections>
-                                <action selector="addCategoryBtn:" destination="8ac-oD-4P6" id="nYm-sf-Abl"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Category" id="L9e-xf-ULc"/>
                     <connections>
                         <outlet property="tableView" destination="SkR-Q4-sEQ" id="WgT-vD-GRQ"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="taskSegue" id="hwK-VW-v1i"/>
@@ -113,14 +107,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2JC-2V-lLg" secondAttribute="trailing" id="z0v-h7-USp"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Task" id="Pa1-sq-UgC">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ef8-Mh-Tjb">
-                            <color key="tintColor" red="0.012545556411425629" green="0.0" blue="0.16904769406345077" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <connections>
-                                <action selector="addNewTask:" destination="BYZ-38-t0r" id="MiG-8R-M1m"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Task" id="Pa1-sq-UgC"/>
                     <connections>
                         <outlet property="tabelview" destination="fup-vs-V5G" id="DKq-nI-oQh"/>
                     </connections>

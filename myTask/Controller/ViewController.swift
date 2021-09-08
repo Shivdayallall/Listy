@@ -41,13 +41,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = selectedCategory?.categoryName
+        
         tabelview.delegate = self
         tabelview.dataSource = self
         
         view.addSubview(floatingBtn)
         
-        //        loadData()
-        //         print(Realm.Configuration.defaultConfiguration.fileURL!)
+        // loadData()
+        // print(Realm.Configuration.defaultConfiguration.fileURL!)
         // command + shift + g
         
     }
@@ -74,7 +76,7 @@ class ViewController: UIViewController {
                         let item = Items()
                         item.name = self.textField.text!.capitalized
                         currentCategory.todoItem.append(item)
-                        //                        self.SaveData(newItem: item)
+                        // self.SaveData(newItem: item)
                     })
                     
                 } catch {
@@ -179,10 +181,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         tabelview.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if editingStyle == .delete {
-            
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [self] (contextualAction, view, actionPerformed: (Bool) -> ()) in
             if let task = taskArray?[indexPath.row] {
                 
                 do {
@@ -198,8 +198,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
         
-        tabelview.reloadData()
+        delete.image = UIImage(systemName: "trash")
         
+        tableView.reloadData()
+        
+        return UISwipeActionsConfiguration(actions: [delete])
     }
+
     
 }
